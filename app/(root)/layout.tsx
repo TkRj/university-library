@@ -6,7 +6,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <main className="root-container">
       <div className=" mx-auto max-w-7xl">
         <Header/>
-        <div className="mt-20 pb-20 border-white border">{children}</div>
+        <div className="mt-20 pb-20">{children}</div>
       </div>
     </main>
   );
