@@ -28,7 +28,7 @@ const BookOverview = ({
             Category{" "}
             <span className="font-semibold text-light-200">{genre}</span>
           </p>
-          <div className="flex flex-row gap-.5">
+          <div className="flex flex-row gap-1">
             <p>{rating}</p>
             <Image src="icons/star.svg" alt="star" height={22} width={22} />
           </div>
