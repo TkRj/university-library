@@ -38,7 +38,7 @@ const AuthForm = <T extends FieldValues>({
   defaultValues,
   onSubmit,
 }: Props<T>) => {
-  const signInPage = type === "SIGN_IN";
+  const isSignInPage = type === "SIGN_IN";
 
   // 1. Define your form.
   const form: UseFormReturn<T> = useForm({
@@ -53,12 +53,12 @@ const AuthForm = <T extends FieldValues>({
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-semibold text-white">
-        {signInPage
+        {isSignInPage
           ? "Welcome back to BookWise"
           : "Create your library account"}
       </h1>
       <p className="text-light-100">
-        {signInPage
+        {isSignInPage
           ? "Access the vast collection of resources, and stay updated"
           : "Please complete all fields and upload a valid university ID to gain access to the library"}
       </p>
@@ -79,7 +79,7 @@ const AuthForm = <T extends FieldValues>({
                   </FormLabel>
                   <FormControl>
                     {field.name === "universityCard" ? (
-                      <ImageUpload />
+                      <ImageUpload onFileChange={field.onChange}/>
                     ) : (
                       <Input
                         type={
@@ -96,16 +96,16 @@ const AuthForm = <T extends FieldValues>({
             />
           ))}
 
-          <Button type="submit" className="form-btn">{signInPage?"Sign in":"Sign up"}</Button>
+          <Button type="submit" className="form-btn">{isSignInPage?"Sign in":"Sign up"}</Button>
         </form>
       </Form>
       <p className="text-center text-base font-medium">
-        {signInPage ? "New to BookWise? " : "Already have an account? "}
+        {isSignInPage ? "New to BookWise? " : "Already have an account? "}
         <Link
-          href={signInPage ? "/sign-up" : "/sign-in"}
+          href={isSignInPage ? "/sign-up" : "/sign-in"}
           className="font-bold text-primary"
         >
-          {signInPage ? "Create an account" : "Sign in"}
+          {isSignInPage ? "Create an account" : "Sign in"}
         </Link>
       </p>
     </div>
