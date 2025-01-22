@@ -19,13 +19,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           .from(users)
           .where(eq(users.email, credentials.email.toString()))
           .limit(1);
-
-        if (user.length === 0) return null;
-
-        const isPasswordValid = await compare(
-          credentials.password.toString(),
-          user[0].password,
-        );
+          if (user.length === 0) return null;
+          
+          const isPasswordValid = await compare(
+            credentials.password.toString(),
+            user[0].password,
+          );
 
         if (!isPasswordValid) return null;
 
@@ -58,6 +57,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return session;
     },
-    
+
   },
 });

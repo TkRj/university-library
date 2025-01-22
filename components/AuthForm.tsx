@@ -22,8 +22,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
 import ImageUpload from "./ImageUpload";
+import { useToast } from "@/hooks/use-toast";
+import { useSession } from "next-auth/react";
 
 interface Props<T extends FieldValues> {
   schema: ZodType<T>;
@@ -39,7 +42,14 @@ const AuthForm = <T extends FieldValues>({
   onSubmit,
 }: Props<T>) => {
   const isSignInPage = type === "SIGN_IN";
+  const { toast } = useToast();
+  const router = useRouter();
+  const { status } = useSession();
 
+  // If user is still logged in
+  if (status === "authenticated") {
+    router.push("/home");
+  }
   // 1. Define your form.
   const form: UseFormReturn<T> = useForm({
     resolver: zodResolver(schema),
@@ -47,7 +57,21 @@ const AuthForm = <T extends FieldValues>({
   });
 
   const handleSubmit: SubmitHandler<T> = async (data) => {
-    console.log(data);
+    const result = await onSubmit(data);
+
+    if (result.success) {
+      toast({
+        title: "Login success",
+        description: `${isSignInPage ? "You have successfully signed in." : "You have successfully signed up."}`,
+      });
+      router.push("/home");
+    } else {
+      toast({
+        title: `${isSignInPage ? "Login failed." : "Sign up failed."}`,
+        description: `${isSignInPage ? "Please check your credentials." : "One or more fields did not meet the requirements."}`,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -79,7 +103,7 @@ const AuthForm = <T extends FieldValues>({
                   </FormLabel>
                   <FormControl>
                     {field.name === "universityCard" ? (
-                      <ImageUpload onFileChange={field.onChange}/>
+                      <ImageUpload onFileChange={field.onChange} />
                     ) : (
                       <Input
                         type={
@@ -96,7 +120,9 @@ const AuthForm = <T extends FieldValues>({
             />
           ))}
 
-          <Button type="submit" className="form-btn">{isSignInPage?"Sign in":"Sign up"}</Button>
+          <Button type="submit" className="form-btn">
+            {isSignInPage ? "Sign in" : "Sign up"}
+          </Button>
         </form>
       </Form>
       <p className="text-center text-base font-medium">
