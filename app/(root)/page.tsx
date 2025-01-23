@@ -1,10 +1,7 @@
-import Image from "next/image";
-import { Button, buttonVariants } from "@/components/ui/button";
-
 export default function Home() {
   return (
-        <div>
-          <h1 className="text-white">Main Page</h1>
-        </div>
+    <div>
+      <h1 className="text-white">Main Page</h1>
+    </div>
   );
 }
