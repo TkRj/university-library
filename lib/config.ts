@@ -18,6 +18,9 @@ const config = {
         token: process.env.QSTASH_TOKEN!,
       },
     },
+    resend:{
+      token:process.env.RESEND_TOKEN!,
+    }
   },
 };
 
