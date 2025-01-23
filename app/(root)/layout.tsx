@@ -20,7 +20,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
     // get the user and see if the last activity date is today
 
     const user = await db
-      .select({ lastActivityDate: users.lastActivityDate })
+      .select()
       .from(users)
       .where(eq(users.id, session?.user?.id))
       .limit(1);
